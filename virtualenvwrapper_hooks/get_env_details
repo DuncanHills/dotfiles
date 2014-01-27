@@ -1,7 +1,9 @@
 #!/bin/bash
 # This hook is run when the list of virtualenvs is printed so each name can include details.
 
+python --version
 if projectdir=$(cat "$VIRTUAL_ENV/.project" 2>/dev/null); then
+    echo -e "Bound to project: ${projectdir}\n---"
     if [[ -d $projectdir/.git ]] && which git > /dev/null; then
         git --git-dir="$projectdir/.git" --work-tree="$projectdir" status --branch --short
     fi
