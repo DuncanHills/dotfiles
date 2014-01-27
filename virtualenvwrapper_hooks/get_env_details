@@ -2,7 +2,11 @@
 # This hook is run when the list of virtualenvs is printed so each name can include details.
 
 if projectdir=$(cat "$VIRTUAL_ENV/.project" 2>/dev/null); then
-    if [[ -d $projectdir/.git ]]; then
+    if [[ -d $projectdir/.git ]] && which git > /dev/null; then
         git --git-dir="$projectdir/.git" --work-tree="$projectdir" status --branch --short
+    fi
+
+    if [[ -d $projectdir/.hg ]] && which hg > /dev/null; then
+        hg summary -R "$projectdir"
     fi
 fi
