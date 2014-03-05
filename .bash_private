@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Provide user name alias for prompt
+__user_alias() {
+    case `whoami` in
+        root)
+            echo -n "###"
+            ;;
+        foo)
+            echo -n "bar"
+            ;;
+        *)
+            echo -n ""
+            ;;
+    esac
+}
+
+# Provide host tags 
+case `hostname -f` in
+    *.foo.bar)
+        HOST_TAGS=":server:"
+        ;;
+    larry* | curly* | moe*)
+        HOST_TAGS=":workstation:"
+        ;;
+    *)
+        HOST_TAGS=""
+        ;;
+esac
+export HOST_TAGS
+
+# Provide host alias names
+case `hostname -f` in
+    foo)
+        HOST_ALIAS="bar"
+        ;;
+
+    baz)
+        HOST_ALIAS="blah"
+        ;;
+esac
+
+[ -n "${HOST_ALIAS}" ] && export HOST_ALIAS
+
+# Select host name color based on HOST_TAGS environment variable
+case ${HOST_TAGS} in
+    *:server:*)
+        HOST_COLOR=${black}${redB}
+        ;;
+    *:workstation:*)
+        HOST_COLOR=${blue}
+        ;;
+    *)
+        HOST_COLOR=${white}${blackB}
+        ;;
+esac

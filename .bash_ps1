@@ -1,0 +1,246 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# Colors and formatting options
+#
+
+resetFormating="\[\033[0m\]"     # reset text format
+
+# regular colors
+black="\[\033[0;30m\]"
+red="\[\033[0;31m\]"
+green="\[\033[0;32m\]"
+yellow="\[\033[0;33m\]"
+blue="\[\033[0;34m\]"
+magenta="\[\033[0;35m\]"
+cyan="\[\033[0;36m\]"
+white="\[\033[0;37m\]"
+
+# High intensity colors
+blackH="\[\033[0;90m\]"
+redH="\[\033[0;91m\]"
+greenH="\[\033[0;92m\]"
+yellowH="\[\033[0;93m\]"
+blueH="\[\033[0;94m\]"
+magentaH="\[\033[0;95m\]"
+cyanH="\[\033[0;96m\]"
+whiteH="\[\033[0;97m\]"
+
+# background colors
+blackB="\[\033[40m\]"
+redB="\[\033[41m\]"
+greenB="\[\033[42m\]"
+yellowB="\[\033[43m\]"
+blueB="\[\033[44m\]"
+magentaB="\[\033[45m\]"
+cyanB="\[\033[46m\]"
+whiteB="\[\033[47m\]"
+
+# ------------------------------------------------------------------------------
+# Aliases for host and user names
+#
+
+PRIVATES="$HOME/.bash_privates"
+if [[ -f "$PRIVATES" && -r "$PRIVATES" ]]; then
+    source "$PRIVATES" && USE_PRIVATES=true
+else
+    USE_PRIVATES=false
+fi
+
+# re-implement the following in $PRIVATES for sensitive data
+if [[ $USE_PRIVATES == false ]]; then
+    # Provide user name alias for prompt
+    __user_alias() {
+        case `whoami` in
+            root)
+                echo -n "###"
+                ;;
+            foo)
+                echo -n "bar"
+                ;;
+            *)
+                echo -n ""
+                ;;
+        esac
+    }
+
+    # Provide host tags 
+    case `hostname -f` in
+        *.foo.bar)
+            HOST_TAGS=":server:"
+            ;;
+        larry* | curly* | moe*)
+            HOST_TAGS=":workstation:"
+            ;;
+        *)
+            HOST_TAGS=""
+            ;;
+    esac
+    export HOST_TAGS
+
+    # Provide host alias names
+    case `hostname -f` in
+        foo)
+            HOST_ALIAS="bar"
+            ;;
+
+        baz)
+            HOST_ALIAS="blah"
+            ;;
+    esac
+
+    [ -n "${HOST_ALIAS}" ] && export HOST_ALIAS
+
+    # Select host name color based on HOST_TAGS environment variable
+    case ${HOST_TAGS} in
+        *:server:*)
+            HOST_COLOR=${black}${redB}
+            ;;
+        *:workstation:*)
+            HOST_COLOR=${blue}
+            ;;
+        *)
+            HOST_COLOR=${white}${blackB}
+            ;;
+    esac
+fi
+
+# ------------------------------------------------------------------------------
+# Bash PROMPT
+#
+
+
+function __prompt_date {
+    echo -n `date +%H:%M`
+}
+
+# Username or alias
+function __prompt_username {
+    if [[ "$(type -t __user_alias)" == "function" ]]; then
+        local user_alias=__user_alias
+    fi
+    if [[ -n "$user_alias" ]]; then
+        echo -n "$(whoami | cut -c1-8)"
+    fi
+}
+
+# Hostname or alias
+function __prompt_hostname {
+   if [[ -n ${HOST_ALIAS} ]]; then
+       echo -n ${HOST_ALIAS}
+   else
+       echo -n "$(hostname -s | cut -c1-16)"
+   fi
+}
+
+# SSH agent indicator
+function __prompt_ssh_agent {
+    if [[ -n "${SSH_CLIENT}" ]] && [[ -n "${SSH_AUTH_SOCK}" ]] && [[ -e "${SSH_AUTH_SOCK}" ]]; then
+        echo -n "@"
+    fi
+}
+
+# SSH session session indicator
+function __prompt_ssh {
+    if [[ -n "$SSH_CLIENT" ]]; then
+        echo -n 'ssh'
+    fi
+}
+
+# Show version controlled repository status.
+# vcprompt is used if installed, otherwise __git_ps1 will be tried as well.
+# Install vcsprompt -> hg clone https://bitbucket.org/mitsuhiko/vcprompt
+export GIT_PS1_SHOWDIRTYSTATE="yes"
+export GIT_PS1_SHOWUPSTREAM="no"
+export GIT_PS1_SHOWUNTRACKEDFILES="yes"
+function __prompt_vcs {
+    if [[ $(which vcprompt) ]]; then
+        vcprompt -f "(%n:%b%m%u)"
+    elif [[ $(type -t __git_ps1) == "function" ]]; then
+        __git_ps1 "(%s)"
+    fi
+}
+
+
+
+# Support function to compactify a path
+# copied: http://stackoverflow.com/questions/3497885/code-challenge-bash-prompt-path-shortener
+function __dir_chomp {
+    local p=${1/#$HOME/\~} b s
+    # Remove [ and ] from strings
+    # (also, regular expression matching on [ ] below creates infinite recursion.)
+    p=${p//[/ }
+    p=${p//]/ }
+    # Remove multiple spaces, don't need them
+    p=${p//  / }
+    s=${#p}
+    while [[ $p != ${p//\/} ]] && (($s>$2))
+    do
+        p=${p#/}
+        [[ $p =~ \.?. ]]
+        b=${b:+${b}/}${BASH_REMATCH[0]}
+        p=${p#*/}
+        ((s=${#b}+${#p}))
+    done
+    #echo ${b/\/~/\~}${b+/}$p
+    echo ${b/\/~/\~}${b:+/}$p
+}
+
+# Compact version of current working directory
+function __prompt_pwd {
+    echo -n $(__dir_chomp  "$(pwd)" 25)
+}
+
+# Visual indicator of last exit code 
+function __prompt_last {
+  if [[ $EUID -eq 0 ]]; then
+      if [[ ${RET} = "0" ]]; then
+          echo -n "#"
+      else
+          echo -n '!!! #'
+      fi
+  else
+      if [[ ${RET} = "0" ]]; then
+          echo -n "\$"
+      else
+          echo -n '$%&!'
+      fi
+  fi
+}
+
+# Append the storage of exit code to prompt command
+if [[ $PROMPT_COMMAND =~ ^.*\;[[:space:]$'\n'$'\r']*$ ]]; then
+    PROMPT_COMMAND="${PROMPT_COMMAND%;*}"
+fi
+
+export PROMPT_COMMAND="export RET=\$?${PROMPT_COMMAND:+;${PROMPT_COMMAND}}"
+
+# Set up prompt
+function __prompt_activate {
+
+    # Set title in xterm*
+    case $TERM in
+        xterm*|rxvt*)
+            TITLEBAR='\[\033]0;\]\u@\h:\w\[\007\]'
+            ;;
+        *)
+            TITLEBAR=""
+            ;;
+    esac
+
+# Set the prompt 
+PS1="${TITLEBAR}\
+${red}\$(__prompt_date) \
+${yellow}\$(__prompt_username)${redH}@${HOST_COLOR}\$(__prompt_hostname)\
+${resetFormating} \
+${blue}\$(__prompt_pwd)${green}\$(__prompt_vcs)\
+${white}${magentaB}\$(__prompt_ssh_agent)${black}${magentaB}\$(__prompt_ssh)\
+${magenta}\$(__prompt_last) \
+${resetFormating}"
+PS2='> '
+PS4='+ '
+}
+
+
+# Activate the prompt code
+__prompt_activate
