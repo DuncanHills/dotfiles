@@ -194,7 +194,7 @@ function __dir_chomp {
 
 # Compact version of current working directory
 function __prompt_pwd {
-    echo -n $(__dir_chomp  "$(pwd)" 25)
+    echo -n $(__dir_chomp  "$(pwd)" 40)
 }
 
 # Visual indicator of last exit code 
@@ -239,11 +239,11 @@ PS1="${TITLEBAR}\
 \[${redH}\]\$(__prompt_date)\[${resetFormatting}\] \
 \[${yellowH}\]\$(__prompt_username)\[${resetFormatting}\]\
 \[${magentaH}\]@\[${resetFormatting}\]\
-\[${HOST_COLOR}\]\$(__prompt_hostname)\[${resetFormatting}\] \
+\[${HOST_COLOR}\]\$(__prompt_hostname)\[${resetFormatting}\]\
+\[${white}${magentaB}\]\$(__prompt_ssh_agent)\[${resetFormatting}\]\
+\[${black}${magentaB}\]\$(__prompt_ssh)\[${resetFormatting}\] \
 \[${blueH}\]\$(__prompt_pwd)\[${resetFormatting}\]\
 \[${greenH}\]\$(__prompt_vcs)\[${resetFormatting}\]\
-\[${white}${magentaB}\]\$(__prompt_ssh_agent)\[${resetFormatting}\]\
-\[${black}${magentaB}\]\$(__prompt_ssh)\[${resetFormatting}\]\
 \[${magenta}\]\$(__prompt_last)\[${resetFormatting}\] "
 PS2='> '
 PS4='+ '
