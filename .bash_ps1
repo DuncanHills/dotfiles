@@ -4,37 +4,38 @@
 # Colors and formatting options
 #
 
-resetFormating="\[\033[0m\]"     # reset text format
+resetFormatting="$(tput sgr0)"
+bold="$(tput bold)"
 
 # regular colors
-black="\[\033[0;30m\]"
-red="\[\033[0;31m\]"
-green="\[\033[0;32m\]"
-yellow="\[\033[0;33m\]"
-blue="\[\033[0;34m\]"
-magenta="\[\033[0;35m\]"
-cyan="\[\033[0;36m\]"
-white="\[\033[0;37m\]"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
 
 # High intensity colors
-blackH="\[\033[0;90m\]"
-redH="\[\033[0;91m\]"
-greenH="\[\033[0;92m\]"
-yellowH="\[\033[0;93m\]"
-blueH="\[\033[0;94m\]"
-magentaH="\[\033[0;95m\]"
-cyanH="\[\033[0;96m\]"
-whiteH="\[\033[0;97m\]"
+blackH="${bold}${black}"
+redH="${bold}${red}"
+greenH="${bold}${green}"
+yellowH="${bold}${yellow}"
+blueH="${bold}${blue}"
+magentaH="${bold}${magenta}"
+cyanH="${bold}${cyan}"
+whiteH="${bold}${white}"
 
 # background colors
-blackB="\[\033[40m\]"
-redB="\[\033[41m\]"
-greenB="\[\033[42m\]"
-yellowB="\[\033[43m\]"
-blueB="\[\033[44m\]"
-magentaB="\[\033[45m\]"
-cyanB="\[\033[46m\]"
-whiteB="\[\033[47m\]"
+blackB="$(tput setab 0)"
+redB="$(tput setab 1)"
+greenB="$(tput setab 2)"
+yellowB="$(tput setab 3)"
+blueB="$(tput setab 4)"
+magentaB="$(tput setab 5)"
+cyanB="$(tput setab 6)"
+whiteB="$(tput setab 7)"
 
 # ------------------------------------------------------------------------------
 # Aliases for host and user names
@@ -223,7 +224,7 @@ function __prompt_activate {
     # Set title in xterm*
     case $TERM in
         xterm*|rxvt*)
-            TITLEBAR='\[\033]0;\]\u@\h:\w\[\007\]'
+            TITLEBAR='\[\033]0;\u@\h:\w\007\]'
             ;;
         *)
             TITLEBAR=""
@@ -232,13 +233,15 @@ function __prompt_activate {
 
 # Set the prompt 
 PS1="${TITLEBAR}\
-${red}\$(__prompt_date) \
-${yellow}\$(__prompt_username)${redH}@${HOST_COLOR}\$(__prompt_hostname)\
-${resetFormating} \
-${blue}\$(__prompt_pwd)${green}\$(__prompt_vcs)\
-${white}${magentaB}\$(__prompt_ssh_agent)${black}${magentaB}\$(__prompt_ssh)\
-${magenta}\$(__prompt_last) \
-${resetFormating}"
+\[${redH}\]\$(__prompt_date)\[${resetFormatting}\] \
+\[${yellowH}\]\$(__prompt_username)\[${resetFormatting}\]\
+\[${magentaH}\]@\[${resetFormatting}\]\
+\[${HOST_COLOR}\]\$(__prompt_hostname)\[${resetFormatting}\] \
+\[${blueH}\]\$(__prompt_pwd)\[${resetFormatting}\]\
+\[${greenH}\]\$(__prompt_vcs)\[${resetFormatting}\]\
+\[${white}${magentaB}\]\$(__prompt_ssh_agent)\[${resetFormatting}\]\
+\[${black}${magentaB}\]\$(__prompt_ssh)\[${resetFormatting}\]\
+\[${magenta}\]\$(__prompt_last)\[${resetFormatting}\] "
 PS2='> '
 PS4='+ '
 }
