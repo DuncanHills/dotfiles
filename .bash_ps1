@@ -4,38 +4,41 @@
 # Colors and formatting options
 #
 
-resetFormatting="$(tput -T sgr0)"
-bold="$(tput -T bold)"
+# only assign colors if terminal is present
+if $(tty -s); then
+    resetFormatting="$(tput sgr0)"
+    bold="$(tput bold)"
 
-# regular colors
-black="$(tput -T setaf 0)"
-red="$(tput -T setaf 1)"
-green="$(tput -T setaf 2)"
-yellow="$(tput -T setaf 3)"
-blue="$(tput -T setaf 4)"
-magenta="$(tput -T setaf 5)"
-cyan="$(tput -T setaf 6)"
-white="$(tput -T setaf 7)"
+    # regular colors
+    black="$(tput setaf 0)"
+    red="$(tput setaf 1)"
+    green="$(tput setaf 2)"
+    yellow="$(tput setaf 3)"
+    blue="$(tput setaf 4)"
+    magenta="$(tput setaf 5)"
+    cyan="$(tput setaf 6)"
+    white="$(tput setaf 7)"
 
-# High intensity colors
-blackH="${bold}${black}"
-redH="${bold}${red}"
-greenH="${bold}${green}"
-yellowH="${bold}${yellow}"
-blueH="${bold}${blue}"
-magentaH="${bold}${magenta}"
-cyanH="${bold}${cyan}"
-whiteH="${bold}${white}"
+    # High intensity colors
+    blackH="${bold}${black}"
+    redH="${bold}${red}"
+    greenH="${bold}${green}"
+    yellowH="${bold}${yellow}"
+    blueH="${bold}${blue}"
+    magentaH="${bold}${magenta}"
+    cyanH="${bold}${cyan}"
+    whiteH="${bold}${white}"
 
-# background colors
-blackB="$(tput -T setab 0)"
-redB="$(tput -T setab 1)"
-greenB="$(tput -T setab 2)"
-yellowB="$(tput -T setab 3)"
-blueB="$(tput -T setab 4)"
-magentaB="$(tput -T setab 5)"
-cyanB="$(tput -T setab 6)"
-whiteB="$(tput -T setab 7)"
+    # background colors
+    blackB="$(tput setab 0)"
+    redB="$(tput setab 1)"
+    greenB="$(tput setab 2)"
+    yellowB="$(tput setab 3)"
+    blueB="$(tput setab 4)"
+    magentaB="$(tput setab 5)"
+    cyanB="$(tput setab 6)"
+    whiteB="$(tput setab 7)"
+fi
 
 # ------------------------------------------------------------------------------
 # Aliases for host and user names
