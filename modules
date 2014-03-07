@@ -1,0 +1,3 @@
+.virtualenvs
+bin
+.git_template
