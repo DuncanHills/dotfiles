@@ -1,5 +1,5 @@
 [include]
-    path = ~/.gitprivates
+    path = ~/.git_privates
 [push]
 	default = upstream
 [alias]
