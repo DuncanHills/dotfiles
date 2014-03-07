@@ -117,9 +117,11 @@ function __prompt_date {
 # Username or alias
 function __prompt_username {
     if [[ "$(type -t __user_alias)" == "function" ]]; then
-        local user_alias=__user_alias
+        local user_alias=$(__user_alias)
     fi
     if [[ -n "$user_alias" ]]; then
+        echo -n "$user_alias"
+    else
         echo -n "$(whoami | cut -c1-8)"
     fi
 }
@@ -155,9 +157,9 @@ export GIT_PS1_SHOWUPSTREAM="no"
 export GIT_PS1_SHOWUNTRACKEDFILES="yes"
 function __prompt_vcs {
     if [[ $(which vcprompt) ]]; then
-        vcprompt -f "(%n:%b%m%u)"
+        vcprompt -f " (%n:%b%m%u)"
     elif [[ $(type -t __git_ps1) == "function" ]]; then
-        __git_ps1 "(%s)"
+        __git_ps1 " (%s)"
     fi
 }
 
