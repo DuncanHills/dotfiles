@@ -75,8 +75,8 @@ if [[ -f $z ]]; then
 fi
 
 # virtualenvwrapper
-export WORKON_HOME=~/devel/envs
-export PROJECT_HOME=~/devel/git
+export WORKON_HOME=~/.virtualenvs
+export PROJECT_HOME=~/devel
 
 # pyenv
 if which pyenv > /dev/null; then

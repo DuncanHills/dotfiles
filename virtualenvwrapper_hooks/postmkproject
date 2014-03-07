@@ -1,6 +1,0 @@
-#!/bin/bash
-# This hook is run after a new project is activated.
-
-if which git > /dev/null; then
-    git init
-fi
