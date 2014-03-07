@@ -10,3 +10,5 @@
 	templatedir = ~/.git_template
 [merge]
 	ff = false
+[credential]
+	helper = osxkeychain
