@@ -9,8 +9,8 @@ MODULES_FILE = modules
 SHELL = /bin/bash
 CURDIR ?= $(.CURDIR)
 LN_FLAGS = -sfn
-COLOR = \033[32;01m
-NO_COLOR = \033[0m
+CLR = \033[32;01m
+NO_CLR = \033[0m
 
 # find interesting dotfiles, ignore things in ignores and modules files
 SYMLINKS := $(shell find . -mindepth 1 -maxdepth 1 -name '.*' \
@@ -53,33 +53,33 @@ endif
 #
 
 help:
-	@echo "Makefile for installing dotfiles"
-	@echo
-	@echo "Create symlinks:"
-	@echo " $(COLOR)make install$(NO_COLOR)    Install symlinks"
-	@echo
-	@echo "Install vim and shell extras:"
-	@echo " $(COLOR)make vim-extras$(NO_COLOR) Install vim bundles"
-	@echo " $(COLOR)make zsh-extras$(NO_COLOR) Install prezto and z"
-	@echo " $(COLOR)make prezto$(NO_COLOR)     Install prezto"
-	@echo " $(COLOR)make z$(NO_COLOR)          Install z"
-	@echo
-	@echo "Install common packages:"
-	@echo " $(COLOR)make packages$(NO_COLOR)   Install default packages"
-	@echo
-	@echo "Install Sublime Text config:"
-	@echo " $(COLOR)make subl$(NO_COLOR)       Install Sublime Text config"
-	@echo
-	@echo "Maintenance:"
-	@echo " $(COLOR)make clean$(NO_COLOR)      Delete vim bundles"
-	@echo " $(COLOR)make check-dead$(NO_COLOR) Print dead symlinks"
-	@echo " $(COLOR)make clean-dead$(NO_COLOR) Delete dead symlinks"
-	@echo " $(COLOR)make update$(NO_COLOR)     Alias for git pull --rebase"
-	@echo " $(COLOR)make rehash$(NO_COLOR)     Source .zshrc in all tmux \
+	@echo -e "Makefile for installing dotfiles"
+	@echo -e
+	@echo -e "Create symlinks:"
+	@echo -e " $(CLR)make install$(NO_CLR)       Symlink dotfiles and modules"
+	@echo -e
+	@echo -e "Install vim and shell extras:"
+	@echo -e " $(CLR)make vim-extras$(NO_CLR)    Install vim bundles"
+	@echo -e " $(CLR)make zsh-extras$(NO_CLR)    Install prezto and z"
+	@echo -e " $(CLR)make prezto$(NO_CLR)        Install prezto"
+	@echo -e " $(CLR)make z$(NO_CLR)             Install z"
+	@echo -e
+	@echo -e "Install common packages:"
+	@echo -e " $(CLR)make packages$(NO_CLR)      Install default packages"
+	@echo -e
+	@echo -e "Install Sublime Text config:"
+	@echo -e " $(CLR)make subl$(NO_CLR)          Install Sublime Text config"
+	@echo -e
+	@echo -e "Maintenance:"
+	@echo -e " $(CLR)make clean$(NO_CLR)         Delete vim bundles"
+	@echo -e " $(CLR)make check-dead$(NO_CLR)    Print dead symlinks"
+	@echo -e " $(CLR)make clean-dead$(NO_CLR)    Delete dead symlinks"
+	@echo -e " $(CLR)make update$(NO_CLR)        Alias for git pull --rebase"
+	@echo -e " $(CLR)make rehash$(NO_CLR)        Source .zshrc in all tmux \
 	panes"
-	@echo
-	@echo "Useful aliases:"
-	@echo " $(COLOR)make all$(NO_COLOR) install vim-extras zsh-extras"
+	@echo -e
+	@echo -e "Useful aliases:"
+	@echo -e " $(CLR)make all$(NO_CLR) install vim-extras zsh-extras"
 
 # -----------------------------------------------------------------------------
 # Targets
