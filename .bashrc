@@ -36,7 +36,7 @@ shopt -s checkwinsize
 
 # reset prompt command in subshells
 if [[ $SHLVL > 1 ]]; then
-    $PROMPT_COMMAND=
+    unset PROMPT_COMMAND
 fi
 
 # unified bash history
