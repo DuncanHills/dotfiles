@@ -3,6 +3,11 @@ if [[ -x /usr/libexec/path_helper ]]; then
     eval `/usr/libexec/path_helper -s`
 fi
 
+# reset prompt command in subshells
+if [[ $SHLVL > 1 ]]; then
+    unset PROMPT_COMMAND
+fi
+
 # OS X-specific
 if [[ $(uname -s) == 'Darwin' ]]; then
     alias ls='ls -G'
@@ -13,8 +18,23 @@ if [[ $(uname -s) == 'Linux' ]]; then
     : # pass
 fi
 
+# mainline powerline
+export powerline="$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")/powerline"
+export powerline_bash="${powerline}/bindings/bash/powerline.sh"
+export powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
+export powerline_vim="${powerline}/bindings/vim"
+# powerline-shell fork
+export powerline_shell="$HOME/.powerline-shell.py"
+
 # terminal prompt
-if [[ -f "$HOME/.bash_ps1" ]]; then
+if [[ -x $powerline_shell ]]; then
+    function _update_ps1() {
+       export PS1="$("$powerline_shell" --cwd-max-depth 4 --colorize-hostname --mode flat $? 2> /dev/null)"
+    }
+    export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+elif [[ -r $powerline_bash ]]; then
+    source "$powerline_bash"
+elif [[ -f "$HOME/.bash_ps1" ]]; then
     source "$HOME/.bash_ps1"
 else
     export PS1="\u@\h: \w$ "
@@ -33,11 +53,6 @@ fi
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
-# reset prompt command in subshells
-if [[ $SHLVL > 1 ]]; then
-    unset PROMPT_COMMAND
-fi
 
 # unified bash history
 shopt -s histappend
