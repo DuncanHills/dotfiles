@@ -100,7 +100,7 @@ $(SYMLINKS):
 
 $(MODULES):
 	test -e "$(CURDIR)/$@" && mkdir -p ~/"$@"
-	find "$(CURDIR)/$@" -mindepth 1 -maxdepth 1 -type f -exec ln $(LN_FLAGS) {} ~/"$@" \;
+	find "$(CURDIR)/$@" -mindepth 1 -maxdepth 1 -exec ln $(LN_FLAGS) {} ~/"$@" \;
 
 vim-extras:
 	mkdir -p ~/.vim/bundle
