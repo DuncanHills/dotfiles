@@ -27,13 +27,13 @@ export powerline_vim="${powerline}/bindings/vim"
 export powerline_shell="$HOME/.powerline-shell.py"
 
 # terminal prompt
-if [[ -x $powerline_shell ]]; then
+if [[ -r $powerline_bash ]]; then
+    source "$powerline_bash"
+elif [[ -x $powerline_shell ]]; then
     function _update_ps1() {
        export PS1="$("$powerline_shell" --cwd-max-depth 4 --colorize-hostname --mode flat $? 2> /dev/null)"
     }
     export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-elif [[ -r $powerline_bash ]]; then
-    source "$powerline_bash"
 elif [[ -f "$HOME/.bash_ps1" ]]; then
     source "$HOME/.bash_ps1"
 else
@@ -90,15 +90,15 @@ if [[ -f $z ]]; then
 fi
 
 # virtualenvwrapper
-export WORKON_HOME=~/.virtualenvs
-export PROJECT_HOME=~/devel
+export WORKON_HOME="$HOME/.virtualenvs"
+export PROJECT_HOME="$HOME/devel"
 
 # pyenv
 if which pyenv > /dev/null; then
     eval "$(pyenv init -)"
     pyenvroot=$(pyenv root)
     if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then
-        source ${pyenvroot}/plugins/pyenv-autoenv/bin/pyenv-autoenv
+        source "${pyenvroot}/plugins/pyenv-autoenv/bin/pyenv-autoenv"
     fi
     if [[ -d ${pyenvroot}/plugins/pyenv-virtualenvwrapper ]]; then
         pyenv virtualenvwrapper_lazy
