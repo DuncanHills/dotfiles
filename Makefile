@@ -46,7 +46,8 @@ else ifeq ($(OS),Linux)
 endif
 
 # fake (non-file) targets
-.PHONY: all install clean check-dead clean-dead update $(SYMLINKS) $(MODULES)
+.PHONY: all install clean check-dead clean-dead update $(SYMLINKS) $(MODULES) \
+packages
 
 # -----------------------------------------------------------------------------
 # Help
