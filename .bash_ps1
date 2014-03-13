@@ -69,7 +69,7 @@ if [[ $USE_PRIVATES == false ]]; then
     }
 
     # Provide host tags 
-    case `hostname -f` in
+    case `hostname` in
         *.foo.bar)
             HOST_TAGS=":server:"
             ;;
@@ -83,7 +83,7 @@ if [[ $USE_PRIVATES == false ]]; then
     export HOST_TAGS
 
     # Provide host alias names
-    case `hostname -f` in
+    case `hostname` in
         foo)
             HOST_ALIAS="bar"
             ;;
@@ -160,7 +160,7 @@ export GIT_PS1_SHOWDIRTYSTATE="yes"
 export GIT_PS1_SHOWUPSTREAM="no"
 export GIT_PS1_SHOWUNTRACKEDFILES="yes"
 function __prompt_vcs {
-    if [[ $(which vcprompt) ]]; then
+    if [[ $(which vcprompt 2>/dev/null) ]]; then
         vcprompt -f " (%n:%b%m%u)"
     elif [[ $(type -t __git_ps1) == "function" ]]; then
         __git_ps1 " (%s)"

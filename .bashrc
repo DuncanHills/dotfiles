@@ -94,7 +94,7 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export PROJECT_HOME="$HOME/devel"
 
 # pyenv
-if which pyenv > /dev/null; then
+if which pyenv 2> /dev/null; then
     eval "$(pyenv init -)"
     pyenvroot=$(pyenv root)
     if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then
