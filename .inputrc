@@ -1,0 +1,3 @@
+"\C-k": menu-complete
+"\C-j": menu-complete
+set show-all-if-ambiguous on
