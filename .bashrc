@@ -56,6 +56,8 @@ shopt -s checkwinsize
 
 # unified bash history
 shopt -s histappend
+HISTSIZE=2500
+HISTFILESIZE=2500
 
 history(){
   __sync_history
