@@ -1,6 +1,6 @@
 # begin dotfile jobs
 # DO NOT REMOVE THE ABOVE LINE
 */15 * * * * (crontab -l | sed -e '/^# begin dotfile jobs$/,/^# end dotfile jobs$/d'; cat $HOME/.cron) | crontab -
-*/5 * * * * if [ "$(uname -s)" = "Darwin" ]; then export TMPDIR="$(getconf DARWIN_USER_TEMP_DIR)"; fi; /usr/local/bin/tmux start \; ls | grep local | grep -v attached | cut -d : -f 1 | xargs -L 1 /usr/local/bin/tmux kill-session -t
+*/5 * * * * "$HOME/bin/tmux-prune-local-sessions.sh"
 # DO NOT REMOVE THE BELOW LINE
 # end dotfile jobs
