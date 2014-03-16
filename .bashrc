@@ -76,6 +76,9 @@ if [[ $PROMPT_COMMAND =~ ^.*[\;[:space:]$'\n'$'\r']*$ ]]; then
 fi
 export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
 
+# install cronjobs
+(crontab -l | sed -e '/begin dotfile jobs/,/end dotfile jobs/d'; cat $HOME/.cron) | crontab -
+
 # homebrew installation prefix if present
 prefix=$(brew --prefix 2>/dev/null || true) # won't break -e
     
@@ -96,7 +99,7 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export PROJECT_HOME="$HOME/devel"
 
 # pyenv
-if which pyenv 2> /dev/null; then
+if which pyenv &> /dev/null; then
     eval "$(pyenv init -)"
     pyenvroot=$(pyenv root)
     if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then

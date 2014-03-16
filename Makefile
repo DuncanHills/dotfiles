@@ -41,7 +41,7 @@ else ifeq ($(OS),Linux)
 	ifeq ($(shell which dpkg),)
 		INSTALL_PACKAGES = apt-get install --assume-yes
 	else ifeq ($(shell which yum),)
-		INSTALL_PACKAGES = apt-get install --assumeyes
+		INSTALL_PACKAGES = yum install --assumeyes
 	endif
 endif
 
