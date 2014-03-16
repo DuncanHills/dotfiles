@@ -77,7 +77,7 @@ fi
 export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
 
 # install cronjobs
-(crontab -l | sed -e '/begin dotfile jobs/,/end dotfile jobs/d'; cat $HOME/.cron) | crontab -
+(crontab -l | sed -e '/^# begin dotfile jobs$/,/^# end dotfile jobs$/d'; cat $HOME/.cron) | crontab -
 
 # homebrew installation prefix if present
 prefix=$(brew --prefix 2>/dev/null || true) # won't break -e
