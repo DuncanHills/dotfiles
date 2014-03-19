@@ -71,9 +71,7 @@ __sync_history() {
   builtin history -r
 }
 
-if [[ $PROMPT_COMMAND =~ ^.*[\;[:space:]$'\n'$'\r']*$ ]]; then
-    export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed 's/^(.*)[;\ \t]*$/$1/')
-fi
+export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;\ \t]*$//')
 export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
 
 # install cronjobs
