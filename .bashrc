@@ -71,7 +71,7 @@ __sync_history() {
   builtin history -r
 }
 
-export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;\ \t]*$//')
+export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;[[:blank:]]]*$//')
 export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
 
 # install cronjobs
