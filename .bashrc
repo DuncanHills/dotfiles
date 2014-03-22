@@ -18,7 +18,8 @@ if [[ $(uname -s) == 'Linux' ]]; then
     : # pass
 fi
 
-# mainline powerline
+# set terminal prompt
+# original powerline
 export powerline="$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")/powerline"
 export powerline_bash="${powerline}/bindings/bash/powerline.sh"
 export powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
@@ -50,9 +51,10 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
+# bash options
 shopt -s checkwinsize
+shopt -s cmdhist
+shopt -s extglob
 
 # unified bash history
 shopt -s histappend
