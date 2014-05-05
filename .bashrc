@@ -3,6 +3,8 @@ if [[ -x /usr/libexec/path_helper ]]; then
     eval `/usr/libexec/path_helper -s`
 fi
 
+export PATH="$PATH:/usr/local/opt/ruby/bin"
+
 # reset prompt command in subshells
 if [[ $SHLVL > 1 ]]; then
     unset PROMPT_COMMAND
@@ -108,4 +110,10 @@ if which pyenv &> /dev/null; then
     if [[ -d ${pyenvroot}/plugins/pyenv-virtualenvwrapper ]]; then
         pyenv virtualenvwrapper_lazy
     fi
+fi
+
+# rbenv
+if which rbenv > /dev/null; then 
+    export RBENV_ROOT="$HOME/.rbenv"
+    eval "$(rbenv init -)"
 fi
