@@ -76,7 +76,8 @@ __sync_history() {
 }
 
 export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;[[:blank:]]]*$//')
-export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
+#export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
+export PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
 
 # install cronjobs
 (crontab -l | sed -e '/^# begin dotfile jobs$/,/^# end dotfile jobs$/d'; cat $HOME/.cron) | crontab -
@@ -117,3 +118,5 @@ if which rbenv > /dev/null; then
     export RBENV_ROOT="$HOME/.rbenv"
     eval "$(rbenv init -)"
 fi
+
+[[ -r ~/.bash_privates ]] && source ~/.bash_privates

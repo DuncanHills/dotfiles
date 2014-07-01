@@ -12,3 +12,7 @@
 	ff = false
 [credential]
 	helper = osxkeychain
+[diff]
+	renames = true
+[color]
+	ui = true
