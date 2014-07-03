@@ -3,6 +3,9 @@ if [[ -x /usr/libexec/path_helper ]]; then
     eval `/usr/libexec/path_helper -s`
 fi
 
+# any private directives go here
+[[ -r ~/.bash_privates ]] && source ~/.bash_privates
+
 export PATH="$PATH:/usr/local/opt/ruby/bin"
 
 # reset prompt command in subshells
@@ -102,7 +105,9 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export PROJECT_HOME="$HOME/devel"
 
 # pyenv
+echo "PYENV: $(which pyenv)"
 if which pyenv &> /dev/null; then
+    echo "TRUE"
     eval "$(pyenv init -)"
     pyenvroot=$(pyenv root)
     if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then
@@ -118,5 +123,3 @@ if which rbenv > /dev/null; then
     export RBENV_ROOT="$HOME/.rbenv"
     eval "$(rbenv init -)"
 fi
-
-[[ -r ~/.bash_privates ]] && source ~/.bash_privates
