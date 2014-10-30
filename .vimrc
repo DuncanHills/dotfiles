@@ -6,14 +6,17 @@ set expandtab
 set autoindent
 set hidden
 set backspace=indent,eol,start
+set virtualedit=onemore 
+set hlsearch
+set wildmode=list:longest
 au BufNewFile,BufRead *.pp set filetype=ruby
 au BufNewFile,BufRead *.aug set filetype=ruby
 " disable mouse mode until I figure out how to get vim + tmux to play nicely
 " over SSH
-"if has("mouse")
-"    set mouse=a
-"    set mousehide
-"endif
+if has("mouse")
+    set mouse=a
+    set mousehide
+endif
 if !empty($powerline_vim)
     set rtp+=$powerline_vim
     " Always show statusline

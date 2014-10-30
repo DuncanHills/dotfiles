@@ -62,6 +62,7 @@ shopt -s cmdhist
 shopt -s extglob
 
 # unified bash history
+set +o histexpand
 shopt -s histappend
 HISTSIZE=2500
 HISTFILESIZE=2500
@@ -105,9 +106,8 @@ export WORKON_HOME="$HOME/.virtualenvs"
 export PROJECT_HOME="$HOME/devel"
 
 # pyenv
-echo "PYENV: $(which pyenv)"
 if which pyenv &> /dev/null; then
-    echo "TRUE"
+    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
     eval "$(pyenv init -)"
     pyenvroot=$(pyenv root)
     if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then

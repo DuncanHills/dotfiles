@@ -9,10 +9,12 @@
 [init]
 	templatedir = ~/.git_template
 [merge]
-	ff = false
+#	ff = false
 [credential]
 	helper = osxkeychain
 [diff]
 	renames = true
 [color]
 	ui = true
+[http]
+	postBuffer = 536870912
