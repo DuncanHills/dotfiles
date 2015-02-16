@@ -129,6 +129,9 @@ if which pyenv &> /dev/null; then
     export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
     eval "$(pyenv init -)"
     pyenvroot=$(pyenv root)
+    if which pyenv-virtualenv-init &> /dev/null; then
+        eval "$(pyenv virtualenv-init -)"
+    fi
     if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then
         source "${pyenvroot}/plugins/pyenv-autoenv/bin/pyenv-autoenv"
     fi
