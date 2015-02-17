@@ -6,7 +6,11 @@ fi
 # any private directives go here
 [[ -r ~/.bash_privates ]] && source ~/.bash_privates
 
-export PATH="$PATH:/usr/local/opt/ruby/bin"
+# site-specific config goes here
+[[ -r ~/.bash_site ]] && source ~/.bash_site
+
+#export PATH="$PATH:/usr/local/opt/ruby/bin"
+export PATH="$PATH:~/bin"
 
 # reset prompt command in subshells
 if [[ $SHLVL > 1 ]]; then
@@ -23,14 +27,11 @@ if [[ $(uname -s) == 'Linux' ]]; then
     : # pass
 fi
 
-# set terminal prompt
-# original powerline
+# powerline
 export powerline="$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")/powerline"
 export powerline_bash="${powerline}/bindings/bash/powerline.sh"
 export powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
 export powerline_vim="${powerline}/bindings/vim"
-# powerline-shell fork
-export powerline_shell="$HOME/.powerline-shell.py"
 
 # terminal prompt
 if [[ -r $powerline_bash ]]; then
@@ -64,8 +65,8 @@ shopt -s extglob
 # unified bash history
 set +o histexpand
 shopt -s histappend
-HISTSIZE=2500
-HISTFILESIZE=2500
+HISTSIZE=99999
+HISTFILESIZE=99999
 
 history(){
   __sync_history

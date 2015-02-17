@@ -1,7 +1,7 @@
 [include]
     path = ~/.git_privates
 [push]
-	default = tracking
+	default = current
 [alias]
 	whatadded = log --diff-filter=A --
 [pull]
