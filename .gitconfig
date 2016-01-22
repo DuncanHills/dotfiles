@@ -4,6 +4,8 @@
 	default = current
 [alias]
 	whatadded = log --diff-filter=A --
+    nuke = !git reset --hard && git clean -fdx
+    derp = !git stash && git stash branch "${1:-derp}" && :
 [pull]
 	rebase = true
 [init]
@@ -18,3 +20,7 @@
 	ui = true
 [http]
 	postBuffer = 536870912
+[merge]
+	tool = opendiff
+[difftool]
+	prompt = false

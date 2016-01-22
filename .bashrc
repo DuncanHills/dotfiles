@@ -20,6 +20,17 @@ fi
 # OS X-specific
 if [[ $(uname -s) == 'Darwin' ]]; then
     alias ls='ls -G'
+    function showhiddenfiles() {
+        defaults write com.apple.finder AppleShowAllFiles YES
+        killall Finder /System/Library/CoreServices/Finder.app
+    }
+    function hidehiddenfiles() {
+        defaults write com.apple.finder AppleShowAllFiles NO
+        killall Finder /System/Library/CoreServices/Finder.app
+    }
+    if which brew &>/dev/null && which powerline-config &>/dev/null; then
+        export POWERLINE_CONFIG_COMMAND=~/bin/powerline-config.sh
+    fi
 fi
 
 # Linux-specific
