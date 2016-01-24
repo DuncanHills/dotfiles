@@ -30,6 +30,7 @@ if [[ $(uname -s) == 'Darwin' ]]; then
     }
     if which brew &>/dev/null && which powerline-config &>/dev/null; then
         export POWERLINE_CONFIG_COMMAND=~/bin/powerline-config.sh
+        export POWERLINE_COMMAND=~/bin/powerline.sh
     fi
 fi
 
@@ -38,8 +39,11 @@ if [[ $(uname -s) == 'Linux' ]]; then
     : # pass
 fi
 
+export PYTHON_REALPATH="$(pyenv shell system &>/dev/null && pyenv which python || which python)"
+export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
+
 # powerline
-export powerline="$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")/powerline"
+export powerline="${PYTHON_MODULEPATH}/powerline"
 export powerline_bash="${powerline}/bindings/bash/powerline.sh"
 export powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
 export powerline_vim="${powerline}/bindings/vim"
