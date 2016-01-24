@@ -50,6 +50,7 @@ export powerline_vim="${powerline}/bindings/vim"
 
 # terminal prompt
 if [[ -r $powerline_bash ]]; then
+    ~/bin/powerline-daemon.sh
     source "$powerline_bash"
 elif [[ -x $powerline_shell ]]; then
     function _update_ps1() {
