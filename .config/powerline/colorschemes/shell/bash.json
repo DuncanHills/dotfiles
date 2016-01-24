@@ -20,7 +20,7 @@
 		"mode": { "fg": "darkestgreen", "bg": "brightgreen", "attr": ["bold"] },
 		"date": { "fg": "gray1", "bg": "gray10", "attr": ["bold"] },
 		"time": { "fg": "gray1", "bg": "gray10", "divider": "magenta", "attr": ["bold"] },
-		"time:divider": { "fg": "magenta", "bg": "gray10"}
+		"time:divider": { "fg": "solarized:magenta", "bg": "gray10"}
 
 	},
 	"mode_translations": {

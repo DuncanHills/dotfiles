@@ -1,5 +1,4 @@
 {
-	"default_module": "powerline.segments.common",
 	"segment_data": {
 		"hostname": {
 			"before": " ",
@@ -20,38 +19,47 @@
 	},
 	"segments": {
 		"left": [
-            {
-                "name": "date",
+			{
+				"function": "powerline.segments.common.time.date",
+				"priority": 10,
                 "args": {
                     "istime": true,
                     "format": "%H:%M"
                 }
-            },
+			},
 			{
+				"function": "powerline.segments.common.net.hostname",
+				"priority": 10,
 				"name": "hostname"
 			},
 			{
-				"name": "user"
+				"function": "powerline.segments.common.env.user",
+				"priority": 50
 			},
 			{
-				"name": "cwd",
+				"function": "powerline.segments.shell.cwd",
+				"priority": 50,
 				"args": {
 					"dir_limit_depth": 3
 				}
 			},
 			{
+				"function": "powerline.segments.common.env.virtualenv",
+				"priority": 40,
 				"name": "virtualenv"
 			},
 			{
+				"function": "powerline.segments.common.vcs.branch",
+				"priority": 40,
 				"name": "branch"
 			},
 			{
-				"module": "powerline.segments.shell",
-				"name": "jobnum"
+				"function": "powerline.segments.shell.jobnum",
+				"priority": 20
 			},
 			{
-				"name": "last_status",
-				"module": "powerline.segments.shell"
+				"function": "powerline.segments.shell.last_status",
+				"priority": 30
 			}
 		]
 	}
