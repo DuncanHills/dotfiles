@@ -2,11 +2,11 @@
     "dividers": {
         "left": {
             "hard": " ",
-            "soft": "▚ "
+            "soft": "▞ "
         },
         "right": {
             "hard": " ",
-            "soft": " ▞"
+            "soft": " ▚"
         }
     },
 	"spaces": 1,
