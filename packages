@@ -10,12 +10,12 @@ git
 htop-osx
 iftop
 keybase
-libmpc
 libssh2
 homebrew/dupes/make
 mobile-shell
 mtr
 pyenv-virtualenv
+python
 python3
 rbenv
 rpm

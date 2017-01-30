@@ -118,20 +118,11 @@ if [[ -f $z ]]; then
     source "$z"
 fi
 
-# virtualenvwrapper
-export WORKON_HOME="$HOME/.virtualenvs"
-export PROJECT_HOME="$HOME/devel"
-
 # pyenv
 if which pyenv &> /dev/null; then
-    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
     eval "$(pyenv init -)"
-    pyenvroot=$(pyenv root)
-    if [[ -d ${pyenvroot}/plugins/pyenv-autoenv ]]; then
-        source "${pyenvroot}/plugins/pyenv-autoenv/bin/pyenv-autoenv"
-    fi
-    if [[ -d ${pyenvroot}/plugins/pyenv-virtualenvwrapper ]]; then
-        pyenv virtualenvwrapper_lazy
+    if which pyenv-virtualenv-init &> /dev/null; then
+        eval "$(pyenv virtualenv-init -)"
     fi
 fi
 
