@@ -28,39 +28,11 @@ if [[ $(uname -s) == 'Darwin' ]]; then
         defaults write com.apple.finder AppleShowAllFiles NO
         killall Finder /System/Library/CoreServices/Finder.app
     }
-    if which brew &>/dev/null && which powerline-config &>/dev/null; then
-        export POWERLINE_CONFIG_COMMAND=~/bin/powerline-config.sh
-        export POWERLINE_COMMAND=~/bin/powerline.sh
-    fi
 fi
 
 # Linux-specific
 if [[ $(uname -s) == 'Linux' ]]; then
     : # pass
-fi
-
-export PYTHON_REALPATH="$(pyenv shell system &>/dev/null && pyenv which python || which python)"
-export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
-
-# powerline
-export powerline="${PYTHON_MODULEPATH}/powerline"
-export powerline_bash="${powerline}/bindings/bash/powerline.sh"
-export powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
-export powerline_vim="${powerline}/bindings/vim"
-
-# terminal prompt
-if [[ -r $powerline_bash ]]; then
-    ~/bin/powerline-daemon.sh
-    source "$powerline_bash"
-elif [[ -x $powerline_shell ]]; then
-    function _update_ps1() {
-       export PS1="$("$powerline_shell" --cwd-max-depth 4 --colorize-hostname --mode flat $? 2> /dev/null)"
-    }
-    export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-elif [[ -f "$HOME/.bash_ps1" ]]; then
-    source "$HOME/.bash_ps1"
-else
-    export PS1="\u@\h: \w$ "
 fi
 
 # aliases
@@ -96,10 +68,6 @@ __sync_history() {
   builtin history -r
 }
 
-export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;[[:blank:]]]*$//')
-#export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
-export PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
-
 # install cronjobs
 (crontab -l | sed -e '/^# begin dotfile jobs$/,/^# end dotfile jobs$/d'; cat $HOME/.cron) | crontab -
 
@@ -131,3 +99,30 @@ if which rbenv > /dev/null; then
     export RBENV_ROOT="$HOME/.rbenv"
     eval "$(rbenv init -)"
 fi
+
+# powerline
+export PYTHON_REALPATH="$(pyenv which python || which python)"
+export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
+export powerline="${PYTHON_MODULEPATH}/powerline"
+export powerline_bash="${powerline}/bindings/bash/powerline.sh"
+export powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
+export powerline_vim="${powerline}/bindings/vim"
+
+# terminal prompt
+if [[ -r $powerline_bash ]]; then
+    ~/bin/powerline-daemon.sh
+    source "$powerline_bash"
+elif [[ -x $powerline_shell ]]; then
+    function _update_ps1() {
+       export PS1="$("$powerline_shell" --cwd-max-depth 4 --colorize-hostname --mode flat $? 2> /dev/null)"
+    }
+    export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+elif [[ -f "$HOME/.bash_ps1" ]]; then
+    source "$HOME/.bash_ps1"
+else
+    export PS1="\u@\h: \w$ "
+fi
+
+export PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;[[:blank:]]]*$//')
+#export PROMPT_COMMAND="$([[ $PROMPT_COMMAND ]] && echo "${PROMPT_COMMAND}; ")__sync_history"
+export PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
