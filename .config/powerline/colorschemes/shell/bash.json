@@ -1,27 +1,26 @@
 {
 	"name": "Default color scheme for shell prompts",
 	"groups": {
-		"jobnum": { "fg": "brightyellow", "bg": "mediumorange", "attrs": [] },
+		"information:priority": { "fg": "brightyellow", "bg": "mediumorange", "attrs": [] },
 		"user": { "fg": "white", "bg": "darkblue", "attrs": ["bold"] },
-		"superuser": { "fg": "white", "bg": "brightred", "attrs": ["bold"] },
+		"warning:regular": { "fg": "white", "bg": "brightred", "attrs": ["bold"] },
 		"virtualenv": { "fg": "white", "bg": "darkcyan", "attrs": [] },
 		"branch": { "fg": "gray9", "bg": "gray2", "attrs": [] },
 		"branch_dirty": { "fg": "brightyellow", "bg": "gray2", "attrs": [] },
 		"branch_clean": { "fg": "gray0", "bg": "brightgreen", "attrs": [] },
-		"continuation": { "fg": "gray9", "bg": "gray4", "attrs": [] },
-		"continuation:current": { "fg": "gray10", "bg": "gray4", "attrs": ["bold"] },
+		"cwd": { "fg": "gray9", "bg": "gray4", "attrs": [] },
+		"cwd:current_folder": { "fg": "gray10", "bg": "gray4", "attrs": ["bold"] },
 		"cwd": { "fg": "gray9", "bg": "gray4", "attrs": [] },
 		"cwd:current_folder": { "fg": "gray10", "bg": "gray4", "attrs": ["bold"] },
 		"cwd:divider": { "fg": "gray7", "bg": "gray4", "attrs": [] },
 		"hostname": { "fg": "brightyellow", "bg": "darkestpurple", "attrs": [] },
-		"exit_fail": { "fg": "white", "bg": "brightred", "attrs": [] },
-		"exit_success": { "fg": "white", "bg": "darkestgreen", "attrs": [] },
+		"critical:failure": { "fg": "white", "bg": "brightred", "attrs": [] },
+		"critical:success": { "fg": "white", "bg": "darkestgreen", "attrs": [] },
 		"environment": { "fg": "white", "bg": "darkestgreen", "attrs": [] },
 		"mode": { "fg": "darkestgreen", "bg": "brightgreen", "attrs": ["bold"] },
 		"date": { "fg": "gray1", "bg": "gray10", "attrs": ["bold"] },
 		"time": { "fg": "gray1", "bg": "gray10", "divider": "magenta", "attrs": ["bold"] },
 		"time:divider": { "fg": "solarized:magenta", "bg": "gray10", "attrs": [] }
-
 	},
 	"mode_translations": {
 		"vicmd": {
