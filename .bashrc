@@ -131,6 +131,8 @@ export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
 export powerline_tmux="${powerline_root}/bindings/tmux/powerline.conf"
 export powerline_vim="${powerline_root}/bindings/vim"
 
+# powerline_status and POWERLINE_COMMAND let powerline work when inside
+# of another virtualenv, while being in their own virtualenv
 powerline_status() {
   PATH="$(prepend_to_path "$powerline_bindir")" "$powerline" $@
 }
