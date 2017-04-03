@@ -6,11 +6,11 @@ path_contains() {
 }
 
 append_to_path() {
-  if ! path_contains $1; then export PATH="$PATH:$1"; fi
+  if ! path_contains $1; then echo "$PATH:$1"; else echo "$PATH"; fi
 }
 
 prepend_to_path() {
-  if ! path_contains $1; then export PATH="$1:$PATH"; fi
+  if ! path_contains $1; then echo "$1:$PATH"; else echo "$PATH"; fi
 }
 
 # some things behave differently in project folders, etc.
@@ -23,7 +23,7 @@ cd "$HOME"
 # site-specific config goes here
 [[ -r ~/.bash_site ]] && source ~/.bash_site
 
-append_to_path ~/bin
+PATH="$(append_to_path ~/bin)"
 
 # OS X-specific
 if [[ $(uname -s) == 'Darwin' ]]; then
@@ -53,8 +53,8 @@ alias la='ls -lha'
 alias cd='pushd 1>/dev/null'
 
 # environment variables
-EDITOR=vim
-GOPATH=~/go
+export EDITOR=vim
+export GOPATH=~/go
 
 # enable color support for ls
 if [ -x /usr/bin/dircolors ]; then
@@ -118,13 +118,24 @@ if which rbenv > /dev/null; then
     eval "$(rbenv init -)"
 fi
 
+# these help make the default python and site_packages available
+# regardless of active pyenv or virtualenv environments
+export PYTHON_REALPATH="$(pyenv which python || which python)"
+export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
+
 # powerline
-PYTHON_REALPATH="$(pyenv which python || which python)"
-PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
-powerline="${PYTHON_MODULEPATH}/powerline"
-powerline_bash="${powerline}/bindings/bash/powerline.sh"
-powerline_tmux="${powerline}/bindings/tmux/powerline.conf"
-powerline_vim="${powerline}/bindings/vim"
+export powerline="$(pyenv which powerline || which powerline)"
+export powerline_bindir="$(dirname "$powerline")"
+export powerline_root="${PYTHON_MODULEPATH}/powerline"
+export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
+export powerline_tmux="${powerline_root}/bindings/tmux/powerline.conf"
+export powerline_vim="${powerline_root}/bindings/vim"
+
+powerline_status() {
+  PATH="$(prepend_to_path "$powerline_bindir")" "$powerline" $@
+}
+
+export POWERLINE_COMMAND=powerline_status
 
 # terminal prompt
 #unset PROMPT_COMMAND
