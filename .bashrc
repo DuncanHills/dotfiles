@@ -118,6 +118,12 @@ if which rbenv > /dev/null; then
     eval "$(rbenv init -)"
 fi
 
+# rustup
+cargo_bin="~/.cargo/bin"
+if [[ -d $cargo_bin ]]; then
+    PATH="$(append_to_path "$cargo_bin")"
+fi
+
 # these help make the default python and site_packages available
 # regardless of active pyenv or virtualenv environments
 export PYTHON_REALPATH="$(pyenv which python || which python)"
