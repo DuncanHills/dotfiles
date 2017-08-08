@@ -1,15 +1,5 @@
 {
 	"common": {
-		"term_truecolor": false
-	},
-	"ext": {
-		"shell": {
-			"colorscheme": "bash",
-			"theme": "bash",
-			"local_themes": {
-				"continuation": "continuation",
-				"select": "select"
-			}
-		}
+        "default_top_theme": "powerline"
 	}
 }
