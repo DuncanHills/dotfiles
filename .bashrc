@@ -119,7 +119,7 @@ if which rbenv > /dev/null; then
 fi
 
 # rustup
-cargo_bin="~/.cargo/bin"
+cargo_bin=~/.cargo/bin
 if [[ -d $cargo_bin ]]; then
     PATH="$(append_to_path "$cargo_bin")"
 fi
