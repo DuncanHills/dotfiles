@@ -128,7 +128,7 @@ fi
 # rustup
 cargo_bin=~/.cargo/bin
 if [[ -d $cargo_bin ]]; then
-    PATH="$(append_to_path "$cargo_bin")"
+    PATH="$(prepend_to_path "$cargo_bin")"
 fi
 
 # these help make the default python and site_packages available
