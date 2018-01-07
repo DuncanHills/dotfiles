@@ -89,6 +89,13 @@ __sync_history() {
 # install cronjobs
 (crontab -l | sed -e '/^# begin dotfile jobs$/,/^# end dotfile jobs$/d'; cat $HOME/.cron) | crontab -
 
+# macports
+port_prefix="/opt/local"
+if [[ -x "$port_prefix/bin/port" ]]; then
+    PATH="$(prepend_to_path "$port_prefix/sbin")"
+    PATH="$(prepend_to_path "$port_prefix/bin")"
+fi
+
 # homebrew installation prefix if present
 prefix=$(brew --prefix 2>/dev/null || true)
     
