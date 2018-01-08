@@ -119,6 +119,11 @@ if which pyenv &> /dev/null; then
     fi
 fi
 
+# nodenv
+if which nodenv &> /dev/null; then
+    eval "$(nodenv init -)"
+fi
+
 # rbenv
 if which rbenv > /dev/null; then 
     RBENV_ROOT="$HOME/.rbenv"
