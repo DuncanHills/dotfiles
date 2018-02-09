@@ -105,6 +105,12 @@ if [[ -f $bash_completion ]]; then
     source "$bash_completion"
 fi
 
+# fzf
+if which fzf &> /dev/null; then
+    source "${prefix}/opt/fzf/shell/completion.bash"
+    source "${prefix}/opt/fzf/shell/key-bindings.bash"
+fi
+
 # z
 z="${prefix}/etc/profile.d/z.sh"
 if [[ -f $z ]]; then
@@ -138,11 +144,11 @@ fi
 
 # these help make the default python and site_packages available
 # regardless of active pyenv or virtualenv environments
-export PYTHON_REALPATH="$(pyenv which python || which python)"
+export PYTHON_REALPATH="$(pyenv which python 2> /dev/null || which python)"
 export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
 
 # powerline
-export powerline="$(pyenv which powerline || which powerline)"
+export powerline="$(pyenv which powerline 2> /dev/null || which powerline)"
 export powerline_bindir="$(dirname "$powerline")"
 export powerline_root="${PYTHON_MODULEPATH}/powerline"
 export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
@@ -173,3 +179,4 @@ PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
 # back to where we started, TIME IS A FLAT CIRCLE
 cd "$start_dir"
 unset start_dir
+
