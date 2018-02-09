@@ -23,7 +23,6 @@ cd "$HOME"
 # site-specific config goes here
 [[ -r ~/.bash_site ]] && source ~/.bash_site
 
-PATH="$(append_to_path ~/bin)"
 
 # OS X-specific
 if [[ $(uname -s) == 'Darwin' ]]; then
@@ -37,15 +36,19 @@ if [[ $(uname -s) == 'Darwin' ]]; then
     killall Finder /System/Library/CoreServices/Finder.app
   }
 
-  if [ ${SHELL_SESSION_DID_INIT:-0} -eq 0 ]; then
-    source /etc/bashrc
+  if [ ${SHELL_SESSION_DID_INIT:-0} -ne 0 ]; then
+    unset PATH
   fi
+  
+  source /etc/profile
 fi
 
 # Linux-specific
 if [[ $(uname -s) == 'Linux' ]]; then
   : # pass
 fi
+
+PATH="$(append_to_path ~/bin)"
 
 # aliases
 alias ll='ls -lh'
