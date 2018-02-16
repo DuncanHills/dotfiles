@@ -17,13 +17,6 @@ prepend_to_path() {
 start_dir="$(PWD)"
 cd "$HOME"
 
-# any private directives go here
-[[ -r ~/.bash_privates ]] && source ~/.bash_privates
-
-# site-specific config goes here
-[[ -r ~/.bash_site ]] && source ~/.bash_site
-
-
 # OS X-specific
 if [[ $(uname -s) == 'Darwin' ]]; then
   alias ls='ls -G'
@@ -35,11 +28,7 @@ if [[ $(uname -s) == 'Darwin' ]]; then
     defaults write com.apple.finder AppleShowAllFiles NO
     killall Finder /System/Library/CoreServices/Finder.app
   }
-
-  if [ ${SHELL_SESSION_DID_INIT:-0} -ne 0 ]; then
-    unset PATH
-  fi
-  
+  unset PATH
   source /etc/profile
 fi
 
@@ -47,6 +36,12 @@ fi
 if [[ $(uname -s) == 'Linux' ]]; then
   : # pass
 fi
+
+# any private directives go here
+[[ -r ~/.bash_privates ]] && source ~/.bash_privates
+
+# site-specific config goes here
+[[ -r ~/.bash_site ]] && source ~/.bash_site
 
 PATH="$(append_to_path ~/bin)"
 
@@ -182,4 +177,3 @@ PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
 # back to where we started, TIME IS A FLAT CIRCLE
 cd "$start_dir"
 unset start_dir
-
