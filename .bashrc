@@ -84,8 +84,41 @@ __sync_history() {
   builtin history -r
 }
 
+# add history sync to prompt command
+PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
+
 # install cronjobs
 (crontab -l | sed -e '/^# begin dotfile jobs$/,/^# end dotfile jobs$/d'; cat $HOME/.cron) | crontab -
+
+# these help make the default python and site_packages available
+# regardless of active pyenv or virtualenv environments
+export PYTHON_REALPATH="$(pyenv which python 2> /dev/null || which python)"
+export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
+
+# powerline
+export powerline="$(pyenv which powerline 2> /dev/null || which powerline)"
+export powerline_bindir="$(dirname "$powerline")"
+export powerline_root="${PYTHON_MODULEPATH}/powerline"
+export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
+export powerline_tmux="${powerline_root}/bindings/tmux/powerline.conf"
+export powerline_vim="${powerline_root}/bindings/vim"
+
+# powerline_status and POWERLINE_COMMAND let powerline work when inside
+# of another virtualenv, while being in their own virtualenv
+powerline_status() {
+  PATH="$(prepend_to_path "$powerline_bindir")" "$powerline" $@
+}
+
+export POWERLINE_COMMAND=powerline_status
+
+# terminal prompt
+if [[ -r $powerline_bash ]]; then
+    source "$powerline_bash"
+elif [[ -f "$HOME/.bash_ps1" ]]; then
+    source "$HOME/.bash_ps1"
+else
+    PS1="\u@\h: \w$ "
+fi
 
 # macports
 port_prefix="/opt/local"
@@ -139,40 +172,6 @@ cargo_bin=~/.cargo/bin
 if [[ -d $cargo_bin ]]; then
     PATH="$(prepend_to_path "$cargo_bin")"
 fi
-
-# these help make the default python and site_packages available
-# regardless of active pyenv or virtualenv environments
-export PYTHON_REALPATH="$(pyenv which python 2> /dev/null || which python)"
-export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
-
-# powerline
-export powerline="$(pyenv which powerline 2> /dev/null || which powerline)"
-export powerline_bindir="$(dirname "$powerline")"
-export powerline_root="${PYTHON_MODULEPATH}/powerline"
-export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
-export powerline_tmux="${powerline_root}/bindings/tmux/powerline.conf"
-export powerline_vim="${powerline_root}/bindings/vim"
-
-# powerline_status and POWERLINE_COMMAND let powerline work when inside
-# of another virtualenv, while being in their own virtualenv
-powerline_status() {
-  PATH="$(prepend_to_path "$powerline_bindir")" "$powerline" $@
-}
-
-export POWERLINE_COMMAND=powerline_status
-
-# terminal prompt
-#unset PROMPT_COMMAND
-if [[ -r $powerline_bash ]]; then
-    source "$powerline_bash"
-elif [[ -f "$HOME/.bash_ps1" ]]; then
-    source "$HOME/.bash_ps1"
-else
-    PS1="\u@\h: \w$ "
-fi
-
-PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed -e 's/[;[[:blank:]]]*$//')
-PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
 
 # back to where we started, TIME IS A FLAT CIRCLE
 cd "$start_dir"
