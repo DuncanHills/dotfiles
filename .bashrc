@@ -95,38 +95,6 @@ PROMPT_COMMAND="$PROMPT_COMMAND"$'\n__sync_history'
 export PYTHON_REALPATH="$(pyenv which python 2> /dev/null || which python)"
 export PYTHON_MODULEPATH="$("$PYTHON_REALPATH" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")"
 
-# powerline
-export powerline="$(pyenv which powerline 2> /dev/null || which powerline)"
-export powerline_bindir="$(dirname "$powerline")"
-export powerline_root="${PYTHON_MODULEPATH}/powerline"
-export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
-export powerline_tmux="${powerline_root}/bindings/tmux/powerline.conf"
-export powerline_vim="${powerline_root}/bindings/vim"
-
-# powerline_status and POWERLINE_COMMAND let powerline work when inside
-# of another virtualenv, while being in their own virtualenv
-powerline_status() {
-  PATH="$(prepend_to_path "$powerline_bindir")" "$powerline" $@
-}
-
-export POWERLINE_COMMAND=powerline_status
-
-# terminal prompt
-if [[ -r $powerline_bash ]]; then
-    source "$powerline_bash"
-elif [[ -f "$HOME/.bash_ps1" ]]; then
-    source "$HOME/.bash_ps1"
-else
-    PS1="\u@\h: \w$ "
-fi
-
-# macports
-port_prefix="/opt/local"
-if [[ -x "$port_prefix/bin/port" ]]; then
-    PATH="$(prepend_to_path "$port_prefix/sbin")"
-    PATH="$(prepend_to_path "$port_prefix/bin")"
-fi
-
 # homebrew installation prefix if present
 prefix=$(brew --prefix 2>/dev/null || true)
     
@@ -171,6 +139,31 @@ fi
 cargo_bin=~/.cargo/bin
 if [[ -d $cargo_bin ]]; then
     PATH="$(prepend_to_path "$cargo_bin")"
+fi
+
+# powerline
+export powerline="$(pyenv which powerline 2> /dev/null || which powerline)"
+export powerline_bindir="$(dirname "$powerline")"
+export powerline_root="${PYTHON_MODULEPATH}/powerline"
+export powerline_bash="${powerline_root}/bindings/bash/powerline.sh"
+export powerline_tmux="${powerline_root}/bindings/tmux/powerline.conf"
+export powerline_vim="${powerline_root}/bindings/vim"
+
+# powerline_status and POWERLINE_COMMAND let powerline work when inside
+# of another virtualenv, while being in their own virtualenv
+powerline_status() {
+  PATH="$(prepend_to_path "$powerline_bindir")" "$powerline" "$@"
+}
+
+export POWERLINE_COMMAND=powerline_status
+
+# terminal prompt
+if [[ -r $powerline_bash ]]; then
+    source "$powerline_bash"
+elif [[ -f "$HOME/.bash_ps1" ]]; then
+    source "$HOME/.bash_ps1"
+else
+    PS1="\u@\h: \w$ "
 fi
 
 # back to where we started, TIME IS A FLAT CIRCLE
