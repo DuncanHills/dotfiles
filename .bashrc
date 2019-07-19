@@ -46,13 +46,13 @@ fi
 PATH="$(append_to_path ~/bin)"
 
 # aliases
+alias c=clear
 alias ll='ls -lh'
 alias la='ls -lha'
 alias cd='pushd 1>/dev/null'
 
 # environment variables
 export EDITOR=vim
-export GOPATH=~/go
 
 # enable color support for ls
 if [ -x /usr/bin/dircolors ]; then
@@ -135,7 +135,6 @@ if [[ -d $cargo_bin ]]; then
 fi
 
 # go and goenv
-PATH="$(prepend_to_path "$GOPATH/bin")"
 if which goenv > /dev/null; then
     eval "$(goenv init -)"
 fi
