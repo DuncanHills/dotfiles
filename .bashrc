@@ -136,7 +136,7 @@ fi
 
 # go and goenv
 PATH="$(prepend_to_path "$GOPATH/bin")"
-if which go > /dev/null; then
+if which goenv > /dev/null; then
     eval "$(goenv init -)"
 fi
 
